@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Previsão do tempo</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playwrite+DE+Grund:wght@100..400&family=Signika:wght@300..700&display=swap" rel="stylesheet">
+    <meta name="Description" content="Aplicativo de previsão do tempo real">
+    <meta property="og:title" content="Previsão do tempo">
+    <meta property="og:description" content="Aplicativo de previsão do tempo em tempo real">
+</head>
+<body>
+    
+    <div class="container">
+        <header>
+            <h1>Previsão do tempo</h1>
+        </header>
+        <main>
+            <secction id="search">
+                <input type="text" id="location-input" placeholder="Digite uma localidade" aria-label="localidade">
+                
+                <button id="search-button"type="button" class="btn btn-outline-primary">Buscar</button>
+                <div>
+                    
+                </div>
+            </secction>
+            <section id="weather-info">
+                <div class="current-weather">
+                    <h2>Localidade: <span id="city-name">--</span></h2>
+                    <p>Temperatura: <span id="temperature">--</span>&deg;</p>
+                    <p>Condições: <span id="condition">--</span></p>
+                    <p>Horário Local: <span id="local-time">--:--</span></p>
+                    <img id="weather-icon"  src="" alt="ìcone do tempo">
+                </div>
+                <div id="forecast">
+                    <!-- Previsão para os próximos dias será -->
+                </div>
+
+                 <!-- Seção dos horários das principais capitais -->
+                 <section id="global-times">
+                    <h2>Horários das Principais Capitais</h2>
+                    <p>Brasília (Brasil): <span id="brasilia-time">--:--</span></p>
+                    <p>Washington D.C. (EUA): <span id="washington-time">--:--</span></p>
+                    <p>Londres (Reino Unido): <span id="london-time">--:--</span></p>
+                    <p>Tóquio (Japão): <span id="tokyo-time">--:--</span></p>
+                    <p>Canberra (Austrália): <span id="canberra-time">--:--</span></p>
+                </section>
+
+
+            </section>
+        </main>
+        <footer>
+            <p>Atualizado em tempo real</p>
+        </footer>
+    </div>
+
+    <script src="js/script.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            function atualizarHorarios() {
+                try {
+                    // Horário de Brasília (Brasil)
+                    let brasiliaTimeElement = document.getElementById("brasilia-time");
+                    if (brasiliaTimeElement) {
+                        let dataBrasilia = new Date().toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" });
+                        brasiliaTimeElement.innerHTML = dataBrasilia;
+                    }
+
+                    // Horário de Washington D.C. (EUA)
+                    let washingtonTimeElement = document.getElementById("washington-time");
+                    if (washingtonTimeElement) {
+                        let dataWashington = new Date().toLocaleString("en-US", { timeZone: "America/New_York" });
+                        washingtonTimeElement.innerHTML = dataWashington;
+                    }
+
+                    // Horário de Londres (Reino Unido)
+                    let londonTimeElement = document.getElementById("london-time");
+                    if (londonTimeElement) {
+                        let dataLondres = new Date().toLocaleString("en-GB", { timeZone: "Europe/London" });
+                        londonTimeElement.innerHTML = dataLondres;
+                    }
+
+                    // Horário de Tóquio (Japão)
+                    let tokyoTimeElement = document.getElementById("tokyo-time");
+                    if (tokyoTimeElement) {
+                        let dataTokyo = new Date().toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" });
+                        tokyoTimeElement.innerHTML = dataTokyo;
+                    }
+
+                    // Horário de Canberra (Austrália)
+                    let canberraTimeElement = document.getElementById("canberra-time");
+                    if (canberraTimeElement) {
+                        let dataCanberra = new Date().toLocaleString("en-AU", { timeZone: "Australia/Sydney" });
+                        canberraTimeElement.innerHTML = dataCanberra;
+                    }
+                } catch (error) {
+                    console.error("Erro ao atualizar os horários: ", error);
+                }
+            }
+
+            // Atualiza os horários a cada segundo
+            setInterval(atualizarHorarios, 1000);
+
+            // Chama a função imediatamente quando a página carrega
+            atualizarHorarios();
+        });
+    </script>
+
+</body>
+</html>
