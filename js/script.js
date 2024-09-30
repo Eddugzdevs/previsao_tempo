@@ -87,50 +87,85 @@ function updateLocalTime(timezoneOffset) {
 
 // Função para alterar o fundo com base na temperatura e clima
 function updateBackground(data) {
-    const temp = data.main.temp;  // Temperatura atual
-    const weather = data.weather[0].main.toLowerCase();  // Condição climática (ex: "rain", "clear")
-    const sunrise = new Date(data.sys.sunrise * 1000);  // Hora do nascer do sol
-    const sunset = new Date(data.sys.sunset * 1000);    // Hora do pôr do sol
-    const currentTime = new Date();                     // Hora atual no local
+    const temp = data.main.temp;
+    const weather = data.weather[0].main.toLowerCase();
+    const sunrise = new Date(data.sys.sunrise * 1000);
+    const sunset = new Date(data.sys.sunset * 1000);
+    const currentTime = new Date();
 
     let backgroundImage = '';
 
-    // Verificar se é dia ou noite com base no horário de nascer e pôr do sol
     const isDayTime = currentTime >= sunrise && currentTime < sunset;
 
-    // Definir a imagem de fundo com base na condição climática e horário
     if (weather.includes('rain')) {
-        backgroundImage = isDayTime ? 'url("/img/tebela.jpg")' : 'url("/img/tebela.jpg")';
+        backgroundImage = 'url("/img/tebela.jpg")';
     } else if (weather.includes('cloud')) {
-        backgroundImage = isDayTime ? 'url("/img/tebela.jpg")' : 'url("/img/tebela.jpg")';
+        backgroundImage = 'url("/img/tebela.jpg")';
     } else if (weather.includes('clear')) {
-        backgroundImage = isDayTime ? 'url("/img/tebela.jpg")' : 'url("/img/tebela.jpg")';
+        backgroundImage = 'url("/img/tebela.jpg")';
     } else if (temp <= 0) {
-        backgroundImage = 'url("/img/tebela.jpg")';  // Temperatura abaixo de 0, exibe imagem de neve
+        backgroundImage = 'url("/img/tebela.jpg")';
     } else if (temp > 30) {
-        backgroundImage = 'url("/img/tebela.jpg")';  // Temperatura acima de 30, exibe imagem quente
+        backgroundImage = 'url("/img/tebela.jpg")';
     } else if (temp < 15) {
-        backgroundImage = 'url("/img/tebela.jpg")'; // Temperatura abaixo de 15, exibe imagem fria
+        backgroundImage = 'url("/img/tebela.jpg")';
     } else {
         backgroundImage = isDayTime ? 'url("default_day.jpg")' : 'url("default_night.jpg")';
     }
 
-    // Aplicar a imagem de fundo ao body
     document.body.style.backgroundImage = backgroundImage;
 }
 
-// Adicionando evento ao botão de busca
-searchButton.addEventListener('click', function () {
+// Função para pesquisar ao clicar no botão ou pressionar "Enter"
+function handleSearch() {
     const city = locationInput.value.trim();
     if (city) {
         fetchWeather(city);
     } else {
         showError('Por favor, insira uma localidade.');
     }
+}
+
+// Evento para o botão de busca
+searchButton.addEventListener('click', handleSearch);
+
+// Evento para buscar ao pressionar "Enter"
+locationInput.addEventListener('keydown', function (event) {
+    if (event.key === 'Enter') {
+        handleSearch();
+    }
 });
+
+// Função para atualizar horários globais
+function atualizarHorarios() {
+    try {
+        const timezones = {
+            "brasilia-time": "America/Sao_Paulo",
+            "washington-time": "America/New_York",
+            "london-time": "Europe/London",
+            "tokyo-time": "Asia/Tokyo",
+            "canberra-time": "Australia/Sydney"
+        };
+
+        Object.keys(timezones).forEach(id => {
+            const element = document.getElementById(id);
+            const timezone = timezones[id];
+            if (element) {
+                const data = new Date().toLocaleString('pt-BR', { timeZone: timezone });
+                element.innerHTML = data;
+            }
+        });
+    } catch (error) {
+        console.error("Erro ao atualizar os horários: ", error);
+    }
+}
+
+// Atualiza os horários a cada segundo
+setInterval(atualizarHorarios, 1000);
 
 // Ao carregar a página, buscar automaticamente a previsão para uma localidade padrão
 document.addEventListener('DOMContentLoaded', function () {
     locationInput.value = 'Macacos';
     fetchWeather('Macacos');
+    atualizarHorarios();
 });
