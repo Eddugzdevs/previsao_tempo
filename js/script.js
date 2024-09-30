@@ -98,17 +98,17 @@ function updateBackground(data) {
     const isDayTime = currentTime >= sunrise && currentTime < sunset;
 
     if (weather.includes('rain')) {
-        backgroundImage = 'url("/img/tebela.jpg")';
+        backgroundImage = 'url("img/tebela.jpg")';
     } else if (weather.includes('cloud')) {
-        backgroundImage = 'url("/img/tebela.jpg")';
+        backgroundImage = 'url("img/tebela.jpg")';
     } else if (weather.includes('clear')) {
-        backgroundImage = 'url("/img/tebela.jpg")';
+        backgroundImage = 'url("img/tebela.jpg")';
     } else if (temp <= 0) {
-        backgroundImage = 'url("/img/tebela.jpg")';
+        backgroundImage = 'url("img/tebela.jpg")';
     } else if (temp > 30) {
-        backgroundImage = 'url("/img/tebela.jpg")';
+        backgroundImage = 'url("img/tebela.jpg")';
     } else if (temp < 15) {
-        backgroundImage = 'url("/img/tebela.jpg")';
+        backgroundImage = 'url("img/tebela.jpg")';
     } else {
         backgroundImage = isDayTime ? 'url("default_day.jpg")' : 'url("default_night.jpg")';
     }
